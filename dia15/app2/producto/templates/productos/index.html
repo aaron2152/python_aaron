@@ -1,0 +1,57 @@
+<!-- producto/templates/productos/index.html -->
+<h1>Productos</h1>
+<p><a href="{% url 'logout' %}">Cerrar sesión</a></p>
+
+<h2>Agregar producto</h2>
+<form method="post" action="{% url 'productos_crear' %}">
+    {% csrf_token %}
+    <label>Código de barra</label>
+    <input type="text" name="codigo_barra"><br>
+
+    <label>Descripción</label>
+    <input type="text" name="descripcion"><br>
+
+    <label>Precio costo</label>
+    <input type="number" step="0.01" name="precio_costo"><br>
+
+    <label>Precio venta</label>
+    <input type="number" step="0.01" name="precio_venta"><br>
+
+    <label>IVA</label>
+    <select name="iva">
+        <option value="EXENTO">Exento</option>
+        <option value="5">5%</option>
+        <option value="10">10%</option>
+    </select><br>
+
+    <label>Stock</label>
+    <input type="number" name="stock"><br>
+
+    <label>Unidad de medida</label>
+    <input type="text" name="unidad_medida"><br>
+
+    <button type="submit">Guardar</button>
+</form>
+
+<h2>Listado</h2>
+<table border="1">
+    <tr>
+        <th>Código</th><th>Descripción</th><th>P. Costo</th>
+        <th>P. Venta</th><th>IVA</th><th>Stock</th><th>Unidad</th><th>Acciones</th>
+    </tr>
+    {% for producto in productos %}
+    <tr>
+        <td>{{ producto.codigo_barra }}</td>
+        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.precio_costo }}</td>
+        <td>{{ producto.precio_venta }}</td>
+        <td>{{ producto.iva }}</td>
+        <td>{{ producto.stock }}</td>
+        <td>{{ producto.unidad_medida }}</td>
+        <td>
+            <a href="{% url 'productos_editar' producto.id %}">Editar</a>
+            <a href="{% url 'productos_eliminar' producto.id %}">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
